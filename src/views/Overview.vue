@@ -2,13 +2,28 @@
     <h3 class="page-title">Overview</h3>
     <section>
         <items-sold>
-            <span class="light-text">7</span>
+            <template #icon>
+                <span>&#128200;</span>
+            </template>
+            <template #default>
+                <span class="light-text">{{ quantityOfItemsSold }}</span>
+            </template>
         </items-sold>
         <sales-total>
-            <span class="light-text">$ 138</span>
+            <template #icon>
+                <span>&#128176;</span>
+            </template>
+            <template #default>
+                <span class="light-text">$ {{ totalSalesValue }}</span>
+            </template>   
         </sales-total>
         <best-seller>
-            <span class="light-text">Vue hoodie-medium</span>
+            <template #icon>
+                <span>&#128293;</span>
+            </template>
+            <template #default>
+                <span class="light-text">{{ bestSeller}}</span>
+            </template>
         </best-seller>
     </section>
 </template>
@@ -24,6 +39,17 @@
             ItemsSold,
             SalesTotal,
             BestSeller,
+        },
+        props: {
+            totalSalesValue: {
+                type: Number
+            },
+            quantityOfItemsSold: {
+                type: Number
+            },
+            bestSeller: {
+                type: String
+            }
         }
     }
 </script>

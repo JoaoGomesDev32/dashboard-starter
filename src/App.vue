@@ -5,13 +5,15 @@
     </header>
     <div class="content">
       <aside>
-        <li><a>Overview</a></li>
-        <li><a>Orders</a></li>
-        <li><a>Best Sellers</a></li>
+        <sidebar>
+          <template #default="{page}">
+            <a>{{page}}</a>
+          </template>
+        </sidebar>
       </aside>
       <main>
         <small><span class="blue">dashboard</span> / Overview</small>
-        <Overview />
+        <Overview :quantityOfItemsSold='32' totalSalesValue='197' bestSeller='Vue hoodie-medium' />
       </main>
     </div>
   </div>
@@ -19,11 +21,14 @@
 
 <script>
 import Overview from './views/Overview.vue'
+import Sidebar from './components/Sidebar.vue'
 export default {
   name: 'App',
   components: {
-    Overview
-  }
+    Overview,
+    Sidebar
+  },
+  
 };
 </script>
 
