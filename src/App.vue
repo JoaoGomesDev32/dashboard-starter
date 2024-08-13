@@ -1,35 +1,114 @@
 <template>
   <div class="app_wrapper">
     <header>
-      <h1>João's Dashboard</h1>
+      <h1>JS Dashboard</h1>
     </header>
     <div class="content">
       <aside>
         <sidebar>
-          <template #default="{page}">
-            <a>{{page}}</a>
-          </template>
+           <template #default="{page}">
+               <a @click="selectedPage=`${page}`">{{ page }}</a>
+           </template>
         </sidebar>
       </aside>
       <main>
-        <small><span class="blue">dashboard</span> / Overview</small>
-        <Overview :quantityOfItemsSold='32' totalSalesValue='197' bestSeller='Vue hoodie-medium' />
+        <small><span class="blue">dashboard</span> / {{selectedPage}}</small>
+        <!-- <Overview :quantityOfItemsSold='32' :totalSalesValue='197' bestSeller='Vue hoodie- medium'/> -->
+        <!-- <orders>
+          <template #total>
+            <sales-total>
+              <template #icon>
+                  <span>&#128176;</span>
+              </template>
+              <template #default>
+                  <span class="light-text">$ {{ totalSalesValue }}</span>
+              </template>
+          </sales-total>
+          </template>
+          <template #default>
+            <div class="order_wrapper">
+              <div class="order" v-for="order in orders" :key="order.id">
+                <p>Order: {{order.id}}</p>
+                <ul>
+                  <li v-for="(item, index) in order.items" :key="item+index">
+                    <p>{{ item.name }} - $ {{item.price}}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </template>
+        </orders> -->
+        <!-- <best-sellers>
+          <table>
+            <thead>
+              <tr>
+                <th>Quantity sold</th>
+                <th>Product name</th>
+                <th>Product ID</th>
+                <th>Product price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="{id, name, price, quantity} in sortedItems" :key="id">
+                <td>{{quantity}}</td>
+                <td>{{name}}</td>
+                <td>{{id}}</td>
+                <td>{{price}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </best-sellers> -->
+        <component :is="selectedPage.replace(/\s/, '')"></component>
       </main>
     </div>
   </div>
 </template>
 
 <script>
-import Overview from './views/Overview.vue'
-import Sidebar from './components/Sidebar.vue'
+import Overview from './views/Overview'
+import Sidebar from './components/Sidebar'
+import Orders from './views/Orders'
+import BestSellers from './views/BestSellers'
+import SalesTotal from './components/SalesTotal'
+import {orders} from '../orders'
+
 export default {
   name: 'App',
   components: {
     Overview,
-    Sidebar
+    Sidebar,
+    Orders,
+    SalesTotal,
+    BestSellers
   },
-  
-};
+  data() {
+    return {
+      orders,
+      selectedPage: 'Overview'
+    }
+  },
+  computed: {
+    sortedItems() {
+      const sortedItems = []
+      this.orders.map(order => {
+        order.items.map(item => {
+          const itemExists = sortedItems.find(sortedItem => sortedItem.id === item.id)
+          if(itemExists) {
+            itemExists.quantity++
+            return
+          }
+          const newItem = {
+            quantity: 1,
+            ...item
+          }
+          sortedItems.push(newItem)
+        })
+      })
+      sortedItems.sort((a,b) => (a.quantity > b.quantity) ? -1 : 1)
+        return sortedItems
+    }
+  }
+}
 </script>
 
 <style>
@@ -49,7 +128,7 @@ header h1 {
   font-size: 1.4rem;
 }
 
-.content{
+.content {
   display: flex;
 }
 
@@ -69,10 +148,10 @@ main {
 
 h4 {
   margin: 0;
-  padding: 1.6rem;
+  padding-bottom: 1.6rem;
 }
 
-.light {
+.light-text {
   font-weight: 300;
 }
 

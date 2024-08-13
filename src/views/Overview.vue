@@ -6,7 +6,7 @@
                 <span>&#128200;</span>
             </template>
             <template #default>
-                <span class="light-text">{{ quantityOfItemsSold }}</span>
+                <span class="light-text">{{ quantityOfItemsSold }}</span>   
             </template>
         </items-sold>
         <sales-total>
@@ -15,7 +15,7 @@
             </template>
             <template #default>
                 <span class="light-text">$ {{ totalSalesValue }}</span>
-            </template>   
+            </template>
         </sales-total>
         <best-seller>
             <template #icon>
@@ -29,29 +29,29 @@
 </template>
 
 <script>
-    import ItemsSold from '../components/ItemsSold.vue'
-    import SalesTotal from '../components/SalesTotal.vue'
-    import BestSeller from '../components/BestSeller.vue'
+import ItemsSold from '@/components/ItemsSold'
+import SalesTotal from '@/components/SalesTotal'
+import BestSeller from '@/components/BestSeller'
 
-    export default {
-        name: 'Overview',
-        components: {
-            ItemsSold,
-            SalesTotal,
-            BestSeller,
+export default {
+    name: 'Overview',
+    components: {
+        ItemsSold,
+        SalesTotal,
+        BestSeller
+    } ,
+    props: {
+        totalSalesValue: {
+            type: Number
         },
-        props: {
-            totalSalesValue: {
-                type: Number
-            },
-            quantityOfItemsSold: {
-                type: Number
-            },
-            bestSeller: {
-                type: String
-            }
+        quantityOfItemsSold: {
+            type: Number
+        },
+        bestSeller: {
+            type: String
         }
-    }
+    }   
+}
 </script>
 
 <style scoped>
