@@ -6,58 +6,11 @@
     <div class="content">
       <aside>
         <sidebar>
-           <template #default="{page}">
-               <a @click="selectedPage=`${page}`">{{ page }}</a>
-           </template>
+           
         </sidebar>
       </aside>
       <main>
         <small><span class="blue">dashboard</span> / {{selectedPage}}</small>
-        <!-- <Overview :quantityOfItemsSold='32' :totalSalesValue='197' bestSeller='Vue hoodie- medium'/> -->
-        <!-- <orders>
-          <template #total>
-            <sales-total>
-              <template #icon>
-                  <span>&#128176;</span>
-              </template>
-              <template #default>
-                  <span class="light-text">$ {{ totalSalesValue }}</span>
-              </template>
-          </sales-total>
-          </template>
-          <template #default>
-            <div class="order_wrapper">
-              <div class="order" v-for="order in orders" :key="order.id">
-                <p>Order: {{order.id}}</p>
-                <ul>
-                  <li v-for="(item, index) in order.items" :key="item+index">
-                    <p>{{ item.name }} - $ {{item.price}}</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </template>
-        </orders> -->
-        <!-- <best-sellers>
-          <table>
-            <thead>
-              <tr>
-                <th>Quantity sold</th>
-                <th>Product name</th>
-                <th>Product ID</th>
-                <th>Product price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="{id, name, price, quantity} in sortedItems" :key="id">
-                <td>{{quantity}}</td>
-                <td>{{name}}</td>
-                <td>{{id}}</td>
-                <td>{{price}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </best-sellers> -->
         <component :is="selectedPage.replace(/\s/, '')"></component>
       </main>
     </div>
@@ -87,6 +40,21 @@ export default {
       selectedPage: 'Overview'
     }
   },
+ provide(){
+    return {
+      quantityOfItemsSold: this.quantityOfItemsSold,
+      totalSalesValue: this.totalSalesValue,
+      bestSeller: this.sortedItems[0],
+      orders: this.orders,
+      sortedItems: this.sortedItems,
+      changePage: this.changePage
+    }
+  },
+  methods: {
+    changePage(page) {
+      this.selectedPage = page
+    }
+  },
   computed: {
     sortedItems() {
       const sortedItems = []
@@ -106,7 +74,24 @@ export default {
       })
       sortedItems.sort((a,b) => (a.quantity > b.quantity) ? -1 : 1)
         return sortedItems
-    }
+    },
+
+quantityOfItemsSold() {
+  let qty = 0
+  this.sortedItems.map((item) => {
+    qty += item.quantity
+  })
+  return qty
+},
+totalSalesValue(){
+  let total = 0
+  this.orders.map((order) =>{
+    order.items.map((item) => {
+      total += item.price
+    })
+  })
+  return total
+}
   }
 }
 </script>

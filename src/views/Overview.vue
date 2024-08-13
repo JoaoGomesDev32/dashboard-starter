@@ -1,30 +1,9 @@
 <template>
     <h3 class="page-title">Overview</h3>
     <section>
-        <items-sold>
-            <template #icon>
-                <span>&#128200;</span>
-            </template>
-            <template #default>
-                <span class="light-text">{{ quantityOfItemsSold }}</span>   
-            </template>
-        </items-sold>
-        <sales-total>
-            <template #icon>
-                <span>&#128176;</span>
-            </template>
-            <template #default>
-                <span class="light-text">$ {{ totalSalesValue }}</span>
-            </template>
-        </sales-total>
-        <best-seller>
-            <template #icon>
-                <span>&#128293;</span>
-            </template>
-            <template #default>
-                <span class="light-text">{{ bestSeller}}</span>
-            </template>
-        </best-seller>
+        <items-sold></items-sold>
+        <sales-total></sales-total>
+        <best-seller></best-seller>
     </section>
 </template>
 

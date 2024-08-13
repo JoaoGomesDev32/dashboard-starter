@@ -2,7 +2,8 @@
     <nav>
         <ul>
             <li v-for="page in pages" :key="page">
-                <slot :page="page"></slot>
+                <!-- <slot :page="page"></slot> -->
+                <a @click="changePage(page)">{{ page }}</a>
             </li>
         </ul>
     </nav>
@@ -10,6 +11,7 @@
 
 <script>
 export default {
+    inject: ['changePage'],
     data() {
         return {
             pages: ['Overview', 'Orders', 'Best Sellers']
@@ -26,5 +28,6 @@ export default {
 
     li {
         padding: 10px 0;
+        cursor: pointer;
     }
 </style>
